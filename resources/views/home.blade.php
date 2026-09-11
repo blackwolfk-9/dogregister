@@ -1,4 +1,5 @@
-<x-site-layout>
+<x-site-layout title="Home">
+
     <h1>Welcome to the dogregister</h1>
 
 </x-site-layout>
