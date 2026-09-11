@@ -7,8 +7,8 @@ class WelcomeController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke()
+    public function index()
     {
-        return view('welcome');
+        return view('home');
     }
 }
