@@ -11,9 +11,13 @@ class SiteLayout extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct(public string $title = 'Dogregister')
+    public function __construct(public string $title = 'Dogregister', public array $menu = [])
     {
-        //
+        $this->menu = [
+            ['label' => 'Home', 'url' => '/'],
+            ['label' => 'Dogs', 'url' => '/dogs'],
+
+        ];
     }
 
     /**

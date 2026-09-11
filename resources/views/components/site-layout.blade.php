@@ -8,7 +8,10 @@
 </head>
 <body>
     <nav class="bg-blue-500 text-white p-4">
-        <a href="/">Home</a> | <a href="/dogs">Dogs</a>
+        @foreach ($menu as $item)
+             <a href="{{ $item['url'] }}" class="mr-4">{{ $item['label'] }}</a>   
+        @endforeach
+       
     </nav>
 
     <main class="p-4">
