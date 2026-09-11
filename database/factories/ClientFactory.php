@@ -18,7 +18,13 @@ class ClientFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'first_name' => fake()->firstname(),
+            'last_name' => fake()->lastname(),
+            'email' => fake()->email(),
+            'phone' => fake()->phoneNumber(),
+            'address' => fake()->address(),
+            'birthdate' => fake()->dateTimeBetween(startDate: '-80 years', endDate: '-18 years')->format('Y-m-d'),
+
         ];
     }
 }
