@@ -14,5 +14,5 @@ class Dog extends Model
     /** @use HasFactory<\Database\Factories\DogFactory> */
     use HasFactory;
 
-    protected $fillable = ['name', 'breed', 'chip_number', 'birthdate', 'training', 'client_id'];
+    protected $fillable = ['name', 'breed', 'chip_number', 'birthdate', 'training', 'is_valid', 'client_id'];
 }

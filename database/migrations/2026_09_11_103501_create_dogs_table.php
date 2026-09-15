@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('chip_number');
             $table->date('birthdate');
             $table->text('training');   //what training did the dog resive? 
+            $table->boolean('is_valid');
             $table->foreignId('client_id')->constrained('clients');
         });
     }

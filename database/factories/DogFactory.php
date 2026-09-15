@@ -33,7 +33,8 @@ class DogFactory extends Factory
             ]),
             'chip_number' => fake()->uuid(),
             'birthdate' => fake()->dateTimeBetween(startDate: '-15 years', endDate: 'now')->format('Y-m-d'),
-            'training' => fake()->boolean(),
+            'training' => fake()->sentence(),
+            'is_valid' => fake()->boolean(90),
             'client_id' => Client::inRandomOrder()->first()->id,
         ];
     }
