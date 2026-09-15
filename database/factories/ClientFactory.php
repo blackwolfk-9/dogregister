@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Client;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -24,7 +25,7 @@ class ClientFactory extends Factory
             'phone' => fake()->phoneNumber(),
             'address' => fake()->address(),
             'birthdate' => fake()->dateTimeBetween(startDate: '-80 years', endDate: '-18 years')->format('Y-m-d'),
-
+            'user_id' => User::inRandomOrder()->first()->id,
         ];
     }
 }
