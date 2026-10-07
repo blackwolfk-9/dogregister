@@ -8,7 +8,10 @@
 
         <ul>
             @forelse ($clients as $client)
-                <li>{{ $client->first_name }} {{ $client->last_name }} ({{ $client->email }})</li>
+                <li>
+                    <a href="{{ route('admin.clients.show', $client) }}">{{ $client->first_name }} {{ $client->last_name }}</a>
+                    ({{ $client->email }})
+                </li>
             @empty
                 <li>No clients yet.</li>
             @endforelse
