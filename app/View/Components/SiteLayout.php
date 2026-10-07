@@ -15,7 +15,6 @@ class SiteLayout extends Component
     {
         $this->menu = [
             ['label' => 'Home', 'url' => '/'],
-            ['label' => 'Dogs', 'url' => '/dogs'],
 
         ];
     }
