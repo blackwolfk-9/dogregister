@@ -21,5 +21,14 @@
         </ul>
         <a href="{{ route('admin.clients.edit', $client) }}">Edit</a>
         <a href="{{ route('admin.clients.index') }}">Back to list</a>
+        @if ($client->dogs->count() > 0)
+            <p class="mt-6 text-gray-500">This client has dogs and cannot be deleted.</p>
+        @else
+            <form method="POST" action="{{ route('admin.clients.destroy', $client) }}" class="mt-6">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded">Delete client</button>
+            </form>
+        @endif
     </div>
 </x-app-layout>

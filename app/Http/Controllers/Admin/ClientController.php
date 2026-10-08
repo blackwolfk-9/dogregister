@@ -106,8 +106,15 @@ class ClientController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Client $client)
     {
-        //
+        //deletes a client but only if there are no dogs with the client
+        if ($client->dogs->count() > 0) {
+            abort(403);
+        }
+
+        $client->delete();
+
+        return redirect()->route('admin.clients.index');
     }
 }
