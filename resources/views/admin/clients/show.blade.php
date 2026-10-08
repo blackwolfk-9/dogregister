@@ -19,7 +19,7 @@
                 <li>No dogs yet.</li>
             @endforelse
         </ul>
-
+        <a href="{{ route('admin.clients.edit', $client) }}">Edit</a>
         <a href="{{ route('admin.clients.index') }}">Back to list</a>
     </div>
 </x-app-layout>

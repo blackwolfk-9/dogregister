@@ -70,17 +70,37 @@ class ClientController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Client $client)
     {
-        //
+        //loads the form with a spesific client filled.
+        return view('admin.clients.edit', compact('client'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Client $client)
     {
-        //
+        //saves the form without the userid and goves the show back
+        $request->validate([
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name'  => ['required', 'string', 'max:255'],
+            'email'      => ['required', 'string', 'max:255'],
+            'phone'      => ['required', 'string', 'max:255'],
+            'address'    => ['required', 'string', 'max:255'],
+            'birthdate'  => ['required', 'string', 'max:255'],
+        ]);
+
+        $client->update([
+            'first_name' => $request['first_name'],
+            'last_name'  => $request['last_name'],
+            'email'      => $request['email'],
+            'phone'      => $request['phone'],
+            'address'    => $request['address'],
+            'birthdate'  => $request['birthdate'],
+        ]);
+
+        return redirect()->route('admin.clients.show', $client);
     }
 
     /**
