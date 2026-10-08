@@ -24,7 +24,9 @@ class ClientController extends Controller
      */
     public function create()
     {
-        //
+        //gives the form for creating a client
+        return view('admin.clients.create');
+
     }
 
     /**
@@ -33,6 +35,26 @@ class ClientController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name'  => ['required', 'string', 'max:255'],
+            'email'      => ['required', 'string', 'max:255'],
+            'phone'      => ['required', 'string', 'max:255'],
+            'address'    => ['required', 'string', 'max:255'],
+            'birthdate'  => ['required', 'string', 'max:255'],
+        ]);
+
+        Client::create([
+            'first_name' => $request['first_name'],
+            'last_name'  => $request['last_name'],
+            'email'      => $request['email'],
+            'phone'      => $request['phone'],
+            'address'    => $request['address'],
+            'birthdate'  => $request['birthdate'],
+            'user_id'    => auth()->id(),
+        ]);
+
+        return redirect()->route('admin.clients.index');
     }
 
     /**
