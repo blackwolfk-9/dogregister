@@ -29,6 +29,7 @@ Route::middleware('auth')->group(function () {
     // CRUD route for logged in users
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('clients', Admin\ClientController::class);
+        Route::resource('dogs', Admin\DogController::class);
     });
 
     // For the user's profile management

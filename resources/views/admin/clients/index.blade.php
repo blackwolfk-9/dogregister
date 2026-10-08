@@ -7,7 +7,7 @@
         <a href="{{ route('admin.clients.create') }}">New client</a>
         <p>Hello {{ auth()->user()->name }}</p>
 
-        <ul>
+        <ul class="mt-4">
             @forelse ($clients as $client)
                 <li>
                     <a href="{{ route('admin.clients.show', $client) }}">{{ $client->first_name }} {{ $client->last_name }}</a>

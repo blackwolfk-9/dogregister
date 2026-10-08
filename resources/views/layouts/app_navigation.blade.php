@@ -15,6 +15,8 @@
                     <x-breeze.nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
 Dashboard
                     </x-breeze.nav-link>
+                    <x-breeze.nav-link :href="route('admin.clients.index')" :active="request()->routeIs('admin.clients.*')">Clients</x-breeze.nav-link>
+<x-breeze.nav-link :href="route('admin.dogs.index')" :active="request()->routeIs('admin.dogs.*')">Dogs</x-breeze.nav-link>
                 </div>
             </div>
 
