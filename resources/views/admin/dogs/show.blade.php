@@ -13,5 +13,10 @@
 
         <a href="{{ route('admin.dogs.index') }}">Back to list</a>
         <a href="{{ route('admin.dogs.edit', $dog) }}">Edit</a>
+        <form method="POST" action="{{ route('admin.dogs.destroy', $dog) }}" class="mt-6">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded">Delete dog</button>
+        </form>
     </div>
 </x-app-layout>

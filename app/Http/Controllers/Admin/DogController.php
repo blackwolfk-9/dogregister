@@ -114,6 +114,8 @@ class DogController extends Controller
      */
     public function destroy(Dog $dog)
     {
-        //
+        $dog->delete();
+
+        return redirect()->route('admin.dogs.index');
     }
 }
