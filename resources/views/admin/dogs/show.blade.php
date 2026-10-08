@@ -12,5 +12,6 @@
         <p>Owner: <a href="{{ route('admin.clients.show', $dog->client) }}">{{ $dog->client->first_name }} {{ $dog->client->last_name }}</a></p>
 
         <a href="{{ route('admin.dogs.index') }}">Back to list</a>
+        <a href="{{ route('admin.dogs.edit', $dog) }}">Edit</a>
     </div>
 </x-app-layout>

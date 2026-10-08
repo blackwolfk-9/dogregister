@@ -73,23 +73,46 @@ class DogController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Dog $dog)
     {
-        //
+        $client_options = Client::orderBy('last_name')->pluck('last_name', 'id')->toArray();
+        $validity_options = [1 => 'valid', 0 => 'revoked'];
+
+        return view('admin.dogs.edit', compact('dog', 'client_options', 'validity_options'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Dog $dog)
     {
-        //
+        $request->validate([
+            'name'        => ['required', 'string', 'max:255'],
+            'breed'       => ['required', 'string', 'max:255'],
+            'chip_number' => ['required', 'string', 'max:255'],
+            'birthdate'   => ['required', 'string', 'max:255'],
+            'training'    => ['required', 'string'],
+            'is_valid'    => ['required', 'integer'],
+            'client_id'   => ['required', 'integer', 'exists:clients,id'],
+        ]);
+
+        $dog->update([
+            'name'        => $request['name'],
+            'breed'       => $request['breed'],
+            'chip_number' => $request['chip_number'],
+            'birthdate'   => $request['birthdate'],
+            'training'    => $request['training'],
+            'is_valid'    => $request['is_valid'],
+            'client_id'   => $request['client_id'],
+        ]);
+
+        return redirect()->route('admin.dogs.show', $dog);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Dog $dog)
     {
         //
     }
