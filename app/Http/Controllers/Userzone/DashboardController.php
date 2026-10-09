@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Userzone;
 
 use App\Http\Controllers\Controller;
 use Illuminate\View\View;
+use App\Models\Dog;
+use App\Models\Client;
 
 class DashboardController extends Controller
 {
@@ -12,6 +14,10 @@ class DashboardController extends Controller
      */
     public function __invoke(): View
     {
-        return view('userzone.dashboard');
+        $clients_count = Client::count();
+        $dogs_count = Dog::count();
+        $revoked_dogs = Dog::where('is_valid', false)->latest()->get();
+
+        return view('userzone.dashboard', compact('clients_count', 'dogs_count', 'revoked_dogs'));
     }
 }
