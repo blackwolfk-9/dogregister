@@ -6,21 +6,23 @@
     </x-slot>
 
     <div class="py-12 max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <p>Email: {{ $client->email }}</p>
-        <p>Phone: {{ $client->phone }}</p>
-        <p>Address: {{ $client->address }}</p>
-        <p>Responsible: {{ $client->user->name }}</p>
+        <p class="mt-2">Email: {{ $client->email }}</p>
+        <p class="mt-2">Phone: {{ $client->phone }}</p>
+        <p class="mt-2">Address: {{ $client->address }}</p>
+        <p class="mt-2">Responsible: {{ $client->user->name }}</p>
 
         <h3 class="mt-6 font-semibold">Dogs</h3>
-        <ul>
+        <ul class="mt-2 space-y-2">
             @forelse ($client->dogs as $dog)
-                <li>{{ $dog->name }} ({{ $dog->breed }}), chip {{ $dog->chip_number }}</li>
+                <li><a href="{{ route('admin.dogs.show', $dog) }}" class="text-blue-600 underline">{{ $dog->name }}</a> ({{ $dog->breed }}), chip {{ $dog->chip_number }}</li>
             @empty
                 <li>No dogs yet.</li>
             @endforelse
         </ul>
-        <a href="{{ route('admin.clients.edit', $client) }}">Edit</a>
-        <a href="{{ route('admin.clients.index') }}">Back to list</a>
+        <div class="mt-6 flex gap-4">
+            <a href="{{ route('admin.clients.index') }}" class="text-gray-600 underline">Back to list</a>
+            <a href="{{ route('admin.clients.edit', $client) }}" class="inline-block px-4 py-2 bg-gray-800 text-white rounded">Edit</a>
+        </div>
         @if ($client->dogs->count() > 0)
             <p class="mt-6 text-gray-500">This client has dogs and cannot be deleted.</p>
         @else
