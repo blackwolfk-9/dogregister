@@ -11,7 +11,11 @@
         @foreach ($menu as $item)
              <a href="{{ $item['url'] }}" class="mr-4">{{ $item['label'] }}</a>   
         @endforeach
-       
+        @auth
+            <a href="{{ route('admin.dogs.index') }}" class="mr-4">Admin</a>
+        @else
+            <a href="{{ route('login') }}" class="mr-4">Login</a>
+        @endauth
     </nav>
 
     <main class="p-4">
