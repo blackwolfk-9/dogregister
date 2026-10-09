@@ -5,6 +5,7 @@ use App\Http\Controllers\Userzone\ProfileController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin;
+use App\Http\Controllers\DogController;
 
 /*
  * Public Website routes
@@ -12,6 +13,7 @@ use App\Http\Controllers\Admin;
 Route::get('/', [WelcomeController::class, 'index'])->name('home');
 
 // Todo: add your public routes here
+Route::get('/dogs/search', [DogController::class, 'search'])->name('dogs.search');
 
 /*
  * Authentication routes
