@@ -1,89 +1,98 @@
-<p align="center" style="font-size: 24px; margin-bottom: -25px; color: #EF3B2D;">
-    <strong>Educational<br/> Starter Pack<br/></strong><span style="color:gray">for</span>
-</p>
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# dogregister
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Register of a certification body for assistance dogs.
 
+Staff members of the certification body log in and manage **clients** (the dog owners) and their
+**dogs**. Every dog is stored with its microchip number and whether its certificate is currently
+valid. Revoked certificates are not deleted but marked with `is_valid = false`, so the register
+keeps its history.
 
----
+The public part of the site has no login: anyone (a shop, a landlord, an airline, an authority) can
+enter a microchip number and immediately see whether the dog holds a valid certificate. There is
+deliberately **no public list of all dogs**, only the lookup by chip number (data protection).
 
-## About this Starter Pack
-<div style="background-color: #f6f8fa; padding: 10px; border-radius: 5px;">
-This is a starter pack for <strong>Laravel tailored for educational purposes</strong>. 
+Built with Laravel 13, Laravel Breeze (authentication), Tailwind CSS (via CDN on the public pages)
+and SQLite.
 
-It is aimed at helping students and beginners to quickly set up a Laravel development environment that allows for 
-learning the basics without the need to configure everything from scratch.
-</div>
-
-### Changes from the original Laravel repository
-It provides a pre-configured environment with some opinionated settings and packages for the educational context. 
-Initial customisation was done based on Laravel version 12.x. (12.37.0 on November 9th, 2025).
-Updated to Laravel 13.x (13.7 on May 4th, 2026), including now also Laravel Boost.
-
-- Added **barryvdh/laravel-debugbar** for debug info in the browser
-- Altered **.env.example** for local development (SQLite database, debug mode on, cache and session set to file)
-- Added **roave/security-advisories** to prevent installation of packages with known security issues
-- Added **laravel/boost** for AI assisted code generation
-- Used **laravel/breeze** for authentication scaffolding with Blade templates (but moved all of the component views to a `components.breeze` subfolder for better organization)
-- Replaced vite and related front-end dependencies by **CDN includes of Tailwind CSS and Alpine JS** to keep things simple
-- Replaced PHP Unit by **Pest PHP** for testing, kept basic example tests
-- Some other small tweaks in configuration files, routes, controller, and view organisation to better reflect the educational purpose (rigid structure)
-
-Everything that follows below (and the shields in the header) are part of the original Laravel README.md file.
-
----
-## About Laravel
-
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
-
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## Installation
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+git clone <repository-url> dogregister
+cd dogregister
+composer install
+cp .env.example .env
+php artisan key:generate
+touch database/database.sqlite
+php artisan migrate:fresh --seed
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Then open the site (e.g. `http://dogregister.test` with Laravel Herd, or `php artisan serve`).
 
-## Contributing
+**Login:** `admin@admin.com` / `password`
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+The seeder creates 4 users (incl. the admin), 10 clients and 22 dogs. Two dogs have fixed chip
+numbers so the public search can be tried right away:
 
-## Code of Conduct
+| Chip number | Dog | Certificate |
+|---|---|---|
+| `276098100123456` | Bello | valid |
+| `276098100654321` | Rex | revoked |
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Routes
 
-## Security Vulnerabilities
+| URL | Who | What |
+|---|---|---|
+| `/` | public | Welcome page with explanation and certificate search |
+| `/dogs/search?q=<chip>` | public | Search result: valid / revoked / no dog found |
+| `/login`, `/register`, `/forgot-password` | public | Breeze authentication |
+| `/dashboard` | logged in | Counts of clients and dogs, list of revoked certificates |
+| `/admin/clients` (+ create, show, edit) | logged in | Full CRUD for clients |
+| `/admin/dogs` (+ create, show, edit) | logged in | Full CRUD for dogs |
+| `/profile` | logged in | Breeze profile management |
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+All routes are defined in `routes/web.php` (public + admin) and `routes/auth.php` (Breeze).
 
-## License
+## Data model
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```
+User  1 ─── n  Client  1 ─── n  Dog
+```
+
+- `User` = staff member of the certification body. A user is responsible for several clients.
+- `Client` = dog owner (`user_id` → the responsible staff member).
+- `Dog` = registered assistance dog (`client_id` → its owner, `is_valid` = certificate status).
+
+Clients that still have dogs cannot be deleted (checked in `ClientController@destroy`).
+Dogs can be deleted (for wrong entries); a withdrawn certificate is set to revoked instead.
+
+## Where to find what
+
+| Requirement | File(s) |
+|---|---|
+| 3 models incl. User | `app/Models/User.php`, `app/Models/Client.php`, `app/Models/Dog.php` |
+| Two one-to-many relations | `User::clients()` / `Client::user()`, `Client::dogs()` / `Dog::client()` |
+| Migration per model | `database/migrations/2026_09_11_103500_create_clients_table.php`, `..._103501_create_dogs_table.php` |
+| Factory per model, used in the seeder | `database/factories/ClientFactory.php`, `DogFactory.php`, `database/seeders/DatabaseSeeder.php` |
+| Admin user after seeding | `DatabaseSeeder.php` (`admin@admin.com`) |
+| Every route points to a controller method | `routes/web.php` (`Route::resource`, `auth` middleware group, `admin` prefix) |
+| Full 7-method CRUD (two of them) | `app/Http/Controllers/Admin/ClientController.php`, `app/Http/Controllers/Admin/DogController.php` |
+| Validation of every input | `store()` and `update()` in both admin controllers (`$request->validate([...])`) |
+| Form feedback (errors, old input) | `resources/views/components/form-text-input.blade.php`, `form-textarea.blade.php`, `form-select.blade.php` |
+| Login / register | Laravel Breeze (`routes/auth.php`, `app/Http/Controllers/Auth/`) |
+| Logged-in user info in a view | `resources/views/admin/clients/index.blade.php`, `userzone/dashboard.blade.php` (`auth()->user()->name`) |
+| Logged-in user info in a controller | `ClientController@store` (`'user_id' => auth()->id()`) |
+| Two layouts | `app/View/Components/SiteLayout.php` + `resources/views/components/site-layout.blade.php` (public), `resources/views/layouts/app.blade.php` (Breeze, admin) |
+| Blade components | `resources/views/components/form-*.blade.php`, used in all create/edit views |
+| Control structures in Blade | `@forelse` / `@empty` in every index view, `@if` for the valid/revoked badge, `@auth` in the site layout |
+| CSRF protection | `@csrf` in every POST/PUT/DELETE form, `@method('PUT')` / `@method('DELETE')` |
+| Public search | `app/Http/Controllers/DogController.php` (`search()`), `resources/views/home.blade.php`, `resources/views/dogs/search.blade.php` |
+| Dashboard with data | `app/Http/Controllers/Userzone/DashboardController.php`, `resources/views/userzone/dashboard.blade.php` |
+
+## Sources
+
+- Course material: Laravel MVC Reference Cards (https://edu.deblauwe.be/) and the hotspot demo
+  repository (https://github.com/ndeblauw/hotspot).
+- Laravel documentation (https://laravel.com/docs/13.x).
+- Claude (Anthropic) was used as a tutor: it explained the concepts, pointed to the matching
+  reference cards and reviewed errors. The code was typed by me; the Tailwind styling of the
+  dogs admin pages and this README were drafted by Claude on my instruction and revised by me.
