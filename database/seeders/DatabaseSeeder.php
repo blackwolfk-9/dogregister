@@ -29,5 +29,17 @@ class DatabaseSeeder extends Seeder
         Client::factory(10)->create();  // 10 Clients erzeugen
         Dog::factory(20)->create();
 
+        Dog::factory()->create([
+            'name' => 'Bello',
+            'breed' => 'Labrador Retriever',
+            'chip_number' => '276098100123456',
+            'is_valid' => true,
+        ]);
+        Dog::factory()->create([
+            'name' => 'Rex',
+            'breed' => 'German Shepherd',
+            'chip_number' => '276098100654321',
+            'is_valid' => false,
+        ]);
     }
 }
